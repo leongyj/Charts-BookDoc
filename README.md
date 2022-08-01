@@ -5,4 +5,8 @@ Steps to create new cocoapods tag
 4. Type 'pod lib lint' to check if any error
 5. Then commit and push to origin
 6. Go to GitHub, and create a new release with the branch in origin(Because push tag from local to Github required further work)
-6. after the tag created, lastly is to type 'pod trunk push' to update the pod code
+7. after the tag created, lastly is to type 'pod trunk push' to update the pod code
+
+
+May refer to following tutorial to understand the whole flow
+https://medium.com/@jeantimex/create-your-own-cocoapods-library-da589d5cd270
