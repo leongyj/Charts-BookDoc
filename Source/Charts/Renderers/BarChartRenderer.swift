@@ -366,11 +366,50 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
         // In case the chart is stacked, we need to accomodate individual bars within accessibilityOrdereredElements
         let isStacked = dataSet.isStacked
         let stackSize = isStacked ? dataSet.stackSize : 1
+        
+        var topRectList = [Int]()
+        var botRectList = [Int]()
+        for j in buffer.indices{
+          if buffer[j].height == 0{
+            continue
+          }
 
+          //look for whether this rect is top list
+          var k = 1
+          while (j + k < buffer.indices.count){
+            let curRect = buffer[j]
+            let tempRect = buffer[j + k]
+            if tempRect.origin.x != curRect.origin.x || (j + k) == (buffer.indices.count - 1){
+              topRectList.append(j)
+              break
+            }else {
+              if tempRect.height != 0{
+                break
+              }
+            }
+            k += 1
+          }
+          
+          //look for whether this rect is bottom list
+          k = 1
+          while (j - k >= 0){
+            let curRect = buffer[j]
+            let tempRect = buffer[j - k]
+            if tempRect.origin.x != curRect.origin.x || (j - k) == 0{
+              botRectList.append(j)
+              break
+            }else {
+              if tempRect.height != 0{
+                break
+              }
+            }
+            k += 1
+          }
+        }
+      
         for j in buffer.indices
         {
             let barRect = buffer[j]
-            
             guard viewPortHandler.isInBoundsLeft(barRect.origin.x + barRect.size.width) else { continue }
             guard viewPortHandler.isInBoundsRight(barRect.origin.x) else { break }
 
@@ -379,13 +418,23 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                 // Set the color for the currently drawn value. If the index is out of bounds, reuse colors.
                 context.setFillColor(dataSet.color(atIndex: j).cgColor)
             }
-            
-//            context.fill(barRect)
-            
-          let bezierPath = UIBezierPath(roundedRect:barRect,byRoundingCorners:[.topRight, .topLeft], cornerRadii: CGSize(width: barRect.size.width , height: barRect.size.width ))
+          
+          if botRectList.contains(j) && topRectList.contains(j){
+            let bezierPath = UIBezierPath(roundedRect:barRect,byRoundingCorners:[.bottomRight, .bottomLeft, .topLeft, .topRight], cornerRadii: CGSize(width: barRect.size.width ?? 10 / 2, height: barRect.size.width ?? 10 / 2))
             context.addPath(bezierPath.cgPath)
             context.drawPath(using: .fill)
-            
+          }else if botRectList.contains(j){
+            let bezierPath = UIBezierPath(roundedRect:barRect,byRoundingCorners:[.bottomRight, .bottomLeft], cornerRadii: CGSize(width: barRect.size.width ?? 10 / 2, height: barRect.size.width ?? 10 / 2))
+            context.addPath(bezierPath.cgPath)
+            context.drawPath(using: .fill)
+          }else if topRectList.contains(j){
+            let bezierPath = UIBezierPath(roundedRect:barRect,byRoundingCorners:[.topRight, .topLeft], cornerRadii: CGSize(width: barRect.size.width ?? 10 / 2, height: barRect.size.width ?? 10 / 2))
+            context.addPath(bezierPath.cgPath)
+            context.drawPath(using: .fill)
+          }else{
+            context.fill(barRect)
+          }
+          
             if drawBorder
             {
                 context.setStrokeColor(borderColor.cgColor)
