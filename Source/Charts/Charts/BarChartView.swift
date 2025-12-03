@@ -138,6 +138,13 @@ open class BarChartView: BarLineChartViewBase, BarChartDataProvider
     {
         highlightValue(Highlight(x: x, dataSetIndex: dataSetIndex, stackIndex: stackIndex))
     }
+  
+    @objc open func setIsBarChartStack(isStack: Bool)
+    {
+      if let render = renderer as? BarChartRenderer{
+        render.isBarChartStack = isStack
+      }
+    }
 
     // MARK: Accessors
     
