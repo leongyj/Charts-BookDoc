@@ -8,6 +8,10 @@ Steps to create new cocoapods tag
 7. Name the release & tag as vx.x.x -> v4.1.3
 8. after the tag created, lastly is to type 'pod trunk push --allow-warnings' to update the pod code
 
+Note: 
+If having error '[!] Authentication token is invalid or unverified. Either verify it with the email that was sent or register a new session.'
+Run the following command to register again, then run 'pod trunk push --allow-warnings'
+pod trunk register <your email address> 'Your Name'
 
 May refer to following tutorial to understand the whole flow
 https://medium.com/@jeantimex/create-your-own-cocoapods-library-da589d5cd270
