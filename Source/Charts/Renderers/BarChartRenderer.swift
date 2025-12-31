@@ -423,21 +423,23 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
           
             if isBarChartStack{
               if botRectList.contains(j) && topRectList.contains(j){
-                let bezierPath = UIBezierPath(roundedRect:barRect,byRoundingCorners:[.topRight, .topLeft, .bottomRight, .bottomLeft], cornerRadii: CGSize(width: barRect.size.width ?? 10 / 2, height: barRect.size.width ?? 10 / 2))
+                
+                let bezierPath = UIBezierPath(roundedRect:barRect,byRoundingCorners:[.topRight, .topLeft, .bottomRight, .bottomLeft], cornerRadii: CGSize(width: barRect.size.width / 2, height: barRect.size.width / 2))
                 context.addPath(bezierPath.cgPath)
                 context.drawPath(using: .fill)
               }else if botRectList.contains(j){
-                let bezierPath = UIBezierPath(roundedRect:barRect,byRoundingCorners:[.bottomRight, .bottomLeft], cornerRadii: CGSize(width: barRect.size.width ?? 10 / 2, height: barRect.size.width ?? 10 / 2))
+                let bezierPath = UIBezierPath(roundedRect:barRect,byRoundingCorners:[.bottomRight, .bottomLeft], cornerRadii: CGSize(width: barRect.size.width / 2, height: barRect.size.width / 2))
                 context.addPath(bezierPath.cgPath)
                 context.drawPath(using: .fill)
               }else if topRectList.contains(j){
-                let bezierPath = UIBezierPath(roundedRect:barRect,byRoundingCorners:[.topRight, .topLeft], cornerRadii: CGSize(width: barRect.size.width ?? 10 / 2, height: barRect.size.width ?? 10 / 2))
+                let bezierPath = UIBezierPath(roundedRect:barRect,byRoundingCorners:[.topRight, .topLeft], cornerRadii: CGSize(width: barRect.size.width / 2, height: barRect.size.width / 2))
                 context.addPath(bezierPath.cgPath)
                 context.drawPath(using: .fill)
               }else{
                 context.fill(barRect)
               }
-//            }else{
+            }else{
+                context.fill(barRect)
 //              if botRectList.contains(j) && topRectList.contains(j){
 //                let bezierPath = UIBezierPath(roundedRect:barRect,byRoundingCorners:[.topRight, .topLeft], cornerRadii: CGSize(width: barRect.size.width ?? 10 / 2, height: barRect.size.width ?? 10 / 2))
 //                context.addPath(bezierPath.cgPath)

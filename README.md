@@ -7,7 +7,7 @@ Steps to create new cocoapods tag
 6. Go to GitHub, and create a new release with the branch in origin(Because push tag from local to Github required further work)
 7. Name the release & tag as vx.x.x -> v4.1.3
 8. after the tag created, lastly is to type 'pod trunk push --allow-warnings' to update the pod code
-9. It could take up to 30 minutes for Cocoapods to reflect the latest version in public
+9. On the main project, run 'pod install --repo-update' to refresh the local specs before running 'pod install'
 
 Note: 
 1. If having error '[!] Authentication token is invalid or unverified. Either verify it with the email that was sent or register a new session.'
